@@ -6,6 +6,13 @@ from BPnn import *
 from NonLinearRegression import *
 from BP_NonLinearRegression import *
 
+'''从本地加载数据集
+参数：
+fileName：数据集名称，字符串，若不在当前路径下应为绝对路径
+返回值：
+dataMat：训练集特征集合，list型
+labelMat：训练集标签集合，list型
+'''
 def loadDataSet(fileName):
     dataMat = []; labelMat = []
     fr = open(fileName)
@@ -37,6 +44,7 @@ if a == '1':
 		for i in range(20, 27):
 			newx[i-20] = dataMat[z[i]]
 			newy[i-20] = labelMat[z[i]]
+		# 调用线性回归方法，得到训练集和测试集误差和r方
 		error_train, error, rr = LinearRegression(x, y, newx, newy)
 		sum_error_train += error_train; sum_error += error; sum_rr += rr
 	error_train = sum_error_train / 10; error = sum_error / 10; rr = sum_rr / 10
@@ -61,6 +69,7 @@ elif a == '2':
 		for i in range(20, 27):
 			newx[i-20] = dataMat[z[i]]
 			newy[i-20] = labelMat[z[i]]
+		# 调用非线性回归方法，得到训练集和测试集误差和r方
 		error_train, error, rr = NonLinearRegression(x, y, newx, newy)
 		sum_error_train += error_train; sum_error += error; sum_rr += rr
 	error_train = sum_error_train / 10; error = sum_error / 10; rr = sum_rr / 10
@@ -81,6 +90,7 @@ elif a == '3':
 	for i in range(shape(newx)[0]):
 		for j in range(1, shape(newx)[1]):
 			newxx[i][j-1] = newx[i][j]
+	# 调用神经网络方法，得到训练集和测试集误差
 	train_error, error = BPneuralnetwork(xx, y, newxx, newy, False)
 	print '训练集均方误差=', train_error
 	print '验证集均方误差=', error
@@ -98,6 +108,7 @@ elif a == '4':
 	for i in range(shape(newx)[0]):
 		for j in range(1, shape(newx)[1]):
 			newxx[i][j-1] = newx[i][j]
+	# 调用神经网络与非线性回归结合方法（不使用智能优化算法），得到训练集和测试集误差
 	train_error, error = BP_NonLinearRegression(xx, y, newxx, newy, False)
 	print '训练集均方误差=', train_error
 	print '验证集均方误差=', error
@@ -115,6 +126,7 @@ else:
 	for i in range(shape(newx)[0]):
 		for j in range(1, shape(newx)[1]):
 			newxx[i][j-1] = newx[i][j]
+	# 调用神经网络与非线性回归结合方法（使用智能优化算法），得到训练集和测试集误差
 	train_error, error = BP_NonLinearRegression(xx, y, newxx, newy, True)
 	print '训练集均方误差=', train_error
 	print '验证集均方误差=', error
